@@ -304,13 +304,16 @@ class TaskManager:
         completed = len([t for t in self.tasks.values() if t.status == TaskStatus.COMPLETED])
         in_progress = len([t for t in self.tasks.values() if t.status == TaskStatus.IN_PROGRESS])
         blocked = len([t for t in self.tasks.values() if t.status == TaskStatus.BLOCKED])
+        todo = len([t for t in self.tasks.values() if t.status == TaskStatus.TODO])
+        cancelled = len([t for t in self.tasks.values() if t.status == TaskStatus.CANCELLED])
         
         return {
             "total_tasks": total_tasks,
             "completed": completed,
             "in_progress": in_progress,
             "blocked": blocked,
-            "todo": total_tasks - completed - in_progress - blocked,
+            "todo": todo,
+            "cancelled": cancelled,
             "total_projects": len(self.projects),
             "completion_rate": (completed / total_tasks * 100) if total_tasks > 0 else 0
         }
