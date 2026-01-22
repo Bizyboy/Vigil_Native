@@ -95,6 +95,9 @@ class Vigil:
         self.memory = Memory()
         self.knowledge_base = KnowledgeBase()
         self.reflection_system = ReflectionSystem(
+            brain=self.brain,
+            memory=self.memory
+        )
 
         # Task management and integrations
         self.task_manager = TaskManager()
@@ -105,9 +108,6 @@ class Vigil:
             memory=self.memory
         )
         self.always_on_top_interface = None
-            brain=self.brain,
-            memory=self.memory
-        )
 
         # Wake word listener
         self.listener = WakeWordListener(

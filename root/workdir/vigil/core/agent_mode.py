@@ -9,6 +9,15 @@ from enum import Enum
 import time
 from datetime import datetime
 
+# Import task manager enums for type checking
+try:
+    from core.task_manager import TaskStatus
+except ImportError:
+    # Define fallback if import fails during testing
+    class TaskStatus:
+        TODO = "todo"
+        BLOCKED = "blocked"
+
 
 class AgentMode(Enum):
     """Agent operation modes."""
@@ -158,7 +167,7 @@ class AgentSystem:
             return None
         
         # Check for overdue tasks
-        todos = self.task_manager.list_tasks(status=self.task_manager.TaskStatus.TODO)
+        todos = self.task_manager.list_tasks(status=TaskStatus.TODO)
         urgent_tasks = [t for t in todos if t.priority.value == "urgent"]
         
         if urgent_tasks:
@@ -166,7 +175,7 @@ class AgentSystem:
             return f"Hey, you have {len(urgent_tasks)} urgent task(s) that need attention: {tasks_list}"
         
         # Check for blocked tasks
-        blocked = self.task_manager.list_tasks(status=self.task_manager.TaskStatus.BLOCKED)
+        blocked = self.task_manager.list_tasks(status=TaskStatus.BLOCKED)
         if blocked:
             return f"I notice you have {len(blocked)} blocked task(s). Need help unblocking them?"
         
